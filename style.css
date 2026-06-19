@@ -1,12 +1,12 @@
 :root {
-  --bg: #0f1220;
-  --panel: #1a1e30;
-  --panel-2: #232841;
-  --text: #e8eaf2;
-  --muted: #9aa0bd;
-  --accent: #6c8cff;
-  --accent-hover: #5577ff;
-  --border: #2c3250;
+  --bg: #15110d;
+  --panel: #211a14;
+  --panel-2: #2d241b;
+  --text: #f4ede5;
+  --muted: #b6a795;
+  --accent: #f15e00;
+  --accent-hover: #ff761f;
+  --border: #3a2f23;
   --warning: #ffb020;
   --radius: 14px;
 }
@@ -16,7 +16,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  background: radial-gradient(1200px 600px at 50% -10%, #1c2340 0%, var(--bg) 60%);
+  background: radial-gradient(1200px 600px at 50% -10%, #3a2210 0%, var(--bg) 60%);
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   min-height: 100vh;
@@ -33,7 +33,7 @@ html, body {
   margin: 0;
   font-size: clamp(1.6rem, 4vw, 2.4rem);
   letter-spacing: -0.02em;
-  background: linear-gradient(90deg, #fff, #b9c4ff);
+  background: linear-gradient(90deg, #fff, #ffb380);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -89,7 +89,7 @@ input[type="text"] {
 }
 input[type="text"]:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(108, 140, 255, 0.25);
+  box-shadow: 0 0 0 3px rgba(241, 94, 0, 0.3);
 }
 
 .field__hint {
@@ -168,10 +168,10 @@ input[type="color"]::-webkit-color-swatch { border: 1px solid var(--border); bor
   align-items: center;
   justify-content: center;
   background:
-    linear-gradient(45deg, #20243a 25%, transparent 25%) -10px 0/20px 20px,
-    linear-gradient(-45deg, #20243a 25%, transparent 25%) -10px 0/20px 20px,
-    linear-gradient(45deg, transparent 75%, #20243a 75%) -10px 0/20px 20px,
-    linear-gradient(-45deg, transparent 75%, #20243a 75%) -10px 0/20px 20px,
+    linear-gradient(45deg, #2c2418 25%, transparent 25%) -10px 0/20px 20px,
+    linear-gradient(-45deg, #2c2418 25%, transparent 25%) -10px 0/20px 20px,
+    linear-gradient(45deg, transparent 75%, #2c2418 75%) -10px 0/20px 20px,
+    linear-gradient(-45deg, transparent 75%, #2c2418 75%) -10px 0/20px 20px,
     var(--panel-2);
   border-radius: 12px;
   padding: 18px;
@@ -192,7 +192,7 @@ input[type="color"]::-webkit-color-swatch { border: 1px solid var(--border); bor
   cursor: pointer;
   transition: transform 0.1s, background 0.15s, border-color 0.15s;
 }
-.btn:hover { background: #2a3150; border-color: var(--accent); }
+.btn:hover { background: #33281c; border-color: var(--accent); }
 .btn:active { transform: translateY(1px); }
 .btn--primary { background: var(--accent); border-color: var(--accent); color: #fff; }
 .btn--primary:hover { background: var(--accent-hover); }

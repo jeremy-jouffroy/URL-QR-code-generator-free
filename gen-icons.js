@@ -2,8 +2,8 @@
 // Then rasterized to PNG via qlmanage. Utility script — not shipped on Pages.
 const fs = require("fs");
 
-const ACCENT = "#6c8cff";
-const HOLE = "#141829";
+const ACCENT = "#f15e00";
+const HOLE = "#1c140d";
 
 function motif(box, cx, cy) {
   const u = box / 7;
@@ -36,7 +36,7 @@ function motif(box, cx, cy) {
 }
 
 const GRAD = `<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-  <stop offset="0" stop-color="#1c2340"/><stop offset="1" stop-color="#0f1220"/></linearGradient></defs>`;
+  <stop offset="0" stop-color="#3a2210"/><stop offset="1" stop-color="#15110d"/></linearGradient></defs>`;
 
 function icon({ rounded, contentRatio }) {
   const S = 512;
