@@ -1,5 +1,5 @@
-// Génère les SVG d'icônes de l'app (motif QR stylisé aux couleurs de l'UI).
-// Rasterisés ensuite en PNG via qlmanage. Script utilitaire — non livré sur Pages.
+// Generates the app's SVG icons (stylized QR motif in the UI colors).
+// Then rasterized to PNG via qlmanage. Utility script — not shipped on Pages.
 const fs = require("fs");
 
 const ACCENT = "#6c8cff";

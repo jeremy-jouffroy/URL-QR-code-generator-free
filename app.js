@@ -1,15 +1,15 @@
 "use strict";
 
 // ---- Configuration ----
-const QUIET_ZONE = 4;        // marge (en modules) autour du QR — requise pour la lisibilité
-const EC_LEVEL = "M";        // niveau de correction d'erreur (L, M, Q, H)
-const PNG_SIZE = 1024;       // résolution du PNG exporté (px)
+const QUIET_ZONE = 4;        // margin (in modules) around the QR — required for readability
+const EC_LEVEL = "M";        // error correction level (L, M, Q, H)
+const PNG_SIZE = 1024;       // exported PNG resolution (px)
 
-// Base canonique pour les liens partagés : toujours la GitHub Page publique,
-// afin que le lien fonctionne pour tout le monde (et dans la PWA installée).
+// Canonical base for shared links: always the public GitHub Page,
+// so the link works for everyone (and inside the installed PWA).
 const SHARE_BASE = "https://jeremy-jouffroy.github.io/URL-QR-code-generator-free/";
 
-// ---- Éléments du DOM ----
+// ---- DOM elements ----
 const els = {
   url: document.getElementById("url"),
   fg: document.getElementById("fg"),
@@ -25,20 +25,20 @@ const els = {
   share: document.getElementById("share-link"),
 };
 
-// État courant du QR (matrice + paramètres) pour l'export
+// Current QR state (matrix + params) used for export
 let current = null;
 
 // ---- Helpers ----
 
-// Ajoute https:// si l'utilisateur n'a pas précisé de schéma
+// Prepend https:// when the user did not specify a scheme
 function normalizeUrl(raw) {
   const value = raw.trim();
   if (!value) return "";
-  if (/^[a-z][a-z0-9+.-]*:/i.test(value)) return value; // a déjà un schéma (https:, mailto:, tel:, etc.)
+  if (/^[a-z][a-z0-9+.-]*:/i.test(value)) return value; // already has a scheme (https:, mailto:, tel:, etc.)
   return "https://" + value;
 }
 
-// Luminance relative pour estimer le contraste
+// Relative luminance, used to estimate contrast
 function luminance(hex) {
   const c = hex.replace("#", "");
   const r = parseInt(c.substr(0, 2), 16) / 255;
@@ -60,10 +60,10 @@ function isValidHex(v) {
   return /^#[0-9a-fA-F]{6}$/.test(v);
 }
 
-// ---- Génération du QR ----
+// ---- QR generation ----
 
 function buildMatrix(text) {
-  const qr = qrcode(0, EC_LEVEL); // 0 = type auto
+  const qr = qrcode(0, EC_LEVEL); // 0 = auto type
   qr.addData(text);
   qr.make();
   const count = qr.getModuleCount();
@@ -85,7 +85,7 @@ function buildSvg(matrix, fg, bg, transparent) {
     rects += `<rect x="0" y="0" width="${size}" height="${size}" fill="${bg}"/>`;
   }
 
-  // On fusionne les modules contigus de chaque ligne en un seul rectangle (SVG plus léger)
+  // Merge contiguous modules in each row into a single rectangle (lighter SVG)
   for (let r = 0; r < count; r++) {
     let c = 0;
     while (c < count) {
@@ -105,13 +105,13 @@ function buildSvg(matrix, fg, bg, transparent) {
 
 function render() {
   const encoded = normalizeUrl(els.url.value);
-  els.encodedHint.textContent = encoded ? "Encode : " + encoded : "";
+  els.encodedHint.textContent = encoded ? "Encodes: " + encoded : "";
 
   const fg = isValidHex(els.fgHex.value) ? els.fgHex.value : els.fg.value;
   const bg = isValidHex(els.bgHex.value) ? els.bgHex.value : els.bg.value;
   const transparent = els.transparent.checked;
 
-  // Avertissement de contraste
+  // Contrast warning
   els.contrastWarning.hidden = transparent || contrastRatio(fg, bg) >= 2.5;
 
   if (!encoded) {
@@ -126,7 +126,7 @@ function render() {
     matrix = buildMatrix(encoded);
   } catch (e) {
     els.output.innerHTML = "";
-    els.encodedHint.textContent = "Texte trop long pour un QR code.";
+    els.encodedHint.textContent = "Text too long for a QR code.";
     current = null;
     setButtons(false);
     return;
@@ -202,7 +202,7 @@ function downloadPng() {
   canvas.toBlob((blob) => downloadBlob(blob, fileBaseName() + ".png"), "image/png");
 }
 
-// ---- Synchronisation color picker <-> champ hex ----
+// ---- Color picker <-> hex field sync ----
 
 function syncColor(picker, hexInput) {
   picker.addEventListener("input", () => {
@@ -219,7 +219,7 @@ function syncColor(picker, hexInput) {
   });
 }
 
-// ---- Couleur via valeur (hex avec ou sans #) ----
+// ---- Set a color from a value (hex with or without #) ----
 
 function setColor(picker, hexInput, raw) {
   let v = String(raw || "").trim();
@@ -231,7 +231,7 @@ function setColor(picker, hexInput, raw) {
   return true;
 }
 
-// ---- Pré-remplissage depuis l'URL : ?url=...&fg=...&bg=...&transparent=1 ----
+// ---- Prefill from the URL: ?url=...&fg=...&bg=...&transparent=1 ----
 
 function applyQueryParams() {
   const p = new URLSearchParams(window.location.search);
@@ -244,7 +244,7 @@ function applyQueryParams() {
   }
 }
 
-// ---- Lien partageable (pointe toujours vers la GitHub Page) ----
+// ---- Shareable link (always points to the GitHub Page) ----
 
 function buildShareUrl() {
   const params = new URLSearchParams();
@@ -276,14 +276,14 @@ async function copyShareLink() {
     }
   }
   els.share.classList.add("copied");
-  els.share.textContent = ok ? "✓ Lien copié !" : "Copie impossible";
+  els.share.textContent = ok ? "✓ Link copied!" : "Copy failed";
   setTimeout(() => {
     els.share.classList.remove("copied");
-    els.share.textContent = "🔗 Copier le lien de partage";
+    els.share.textContent = "🔗 Copy share link";
   }, 2000);
 }
 
-// ---- Initialisation ----
+// ---- Initialization ----
 
 syncColor(els.fg, els.fgHex);
 syncColor(els.bg, els.bgHex);
@@ -296,7 +296,7 @@ els.share.addEventListener("click", copyShareLink);
 applyQueryParams();
 render();
 
-// ---- PWA : Service Worker + invite d'installation ----
+// ---- PWA: Service Worker + install prompt ----
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -307,7 +307,7 @@ if ("serviceWorker" in navigator) {
 const installBtn = document.getElementById("install-btn");
 let deferredPrompt = null;
 
-// L'app est-elle déjà lancée comme application installée (PWA en mode autonome) ?
+// Is the app already running as an installed app (standalone PWA)?
 function isStandalone() {
   return (
     window.matchMedia("(display-mode: standalone)").matches ||
@@ -320,7 +320,7 @@ function isStandalone() {
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  // Inutile de proposer l'installation si on tourne déjà en mode application.
+  // No need to offer installation if we're already running as an app.
   if (installBtn && !isStandalone()) installBtn.hidden = false;
 });
 
@@ -339,7 +339,7 @@ window.addEventListener("appinstalled", () => {
   if (installBtn) installBtn.hidden = true;
 });
 
-// Si l'app bascule en mode application pendant la session, on masque le CTA.
+// If the app switches to standalone mode during the session, hide the CTA.
 window.matchMedia("(display-mode: standalone)").addEventListener("change", (e) => {
   if (e.matches && installBtn) installBtn.hidden = true;
 });

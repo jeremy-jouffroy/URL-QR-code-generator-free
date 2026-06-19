@@ -1,8 +1,8 @@
 {
   "name": "URL QR Code Generator",
   "short_name": "QR Generator",
-  "description": "Générateur de QR code d'URL gratuit, 100% dans le navigateur. Couleurs personnalisables, export PNG HD et SVG.",
-  "lang": "fr",
+  "description": "Free URL QR code generator, 100% in your browser. Custom colors, high-resolution PNG and SVG export.",
+  "lang": "en",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

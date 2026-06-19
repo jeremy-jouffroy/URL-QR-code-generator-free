@@ -1,5 +1,5 @@
-// Service Worker — met en cache l'app shell pour un fonctionnement 100% hors-ligne.
-const CACHE = "qrgen-v3";
+// Service Worker — caches the app shell for fully offline operation.
+const CACHE = "qrgen-v4";
 const ASSETS = [
   "./",
   "./index.html",
@@ -31,13 +31,13 @@ self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
 
-  // Cache-first : l'app est entièrement statique, le réseau n'est qu'un secours.
+  // Cache-first: the app is fully static, the network is only a fallback.
   event.respondWith(
     caches.match(req).then((cached) => {
       if (cached) return cached;
       return fetch(req)
         .then((resp) => {
-          // Met en cache au passage les ressources same-origin récupérées.
+          // Cache same-origin resources fetched along the way.
           if (resp.ok && new URL(req.url).origin === self.location.origin) {
             const copy = resp.clone();
             caches.open(CACHE).then((cache) => cache.put(req, copy));

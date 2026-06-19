@@ -1,66 +1,66 @@
 # URL QR Code Generator — Free
 
-Générateur de QR code d'URL **gratuit**, 100 % côté navigateur. Aucune donnée n'est envoyée à un serveur : tout est calculé localement en JavaScript.
+A **free** URL QR code generator that runs 100% in the browser. No data is ever sent to a server: everything is computed locally in JavaScript.
 
-👉 **Démo en ligne :** https://jeremy-jouffroy.github.io/URL-QR-code-generator-free/
+👉 **Live demo:** https://jeremy-jouffroy.github.io/URL-QR-code-generator-free/
 
-## Fonctionnalités
+## Features
 
-- **URL de destination** — saisissez n'importe quelle adresse (le `https://` est ajouté automatiquement si absent).
-- **Couleur du QR code** + **couleur de fond** (color picker + champ hexadécimal).
-- **Fond transparent** optionnel.
-- **Avertissement de contraste** quand les couleurs risquent de rendre le code illisible.
-- **Export PNG haute résolution (1024 px)** — idéal pour le web et **PowerPoint**.
-- **Export SVG vectoriel** — qualité infinie pour l'impression et l'affichage.
-- **Application installable (PWA)** — bouton « Installer » (Chrome/Edge) ou « Ajouter à l'écran d'accueil » (mobile), lancement en fenêtre autonome et **fonctionnement 100 % hors-ligne**.
-- **Lien partageable** — le bouton « Copier le lien de partage » génère une URL qui rouvre l'app avec exactement les mêmes réglages.
+- **Destination URL** — enter any address (`https://` is added automatically if missing).
+- **QR code color** + **background color** (color picker + hex field).
+- **Transparent background** option.
+- **Contrast warning** when the chosen colors may make the code unreadable.
+- **High-resolution PNG export (1024 px)** — perfect for the web and **PowerPoint**.
+- **Vector SVG export** — unlimited quality for print and display.
+- **Installable app (PWA)** — "Install" button (Chrome/Edge) or "Add to Home Screen" (mobile), standalone window launch, and **fully offline operation**.
+- **Shareable link** — the "Copy share link" button generates a URL that reopens the app with the exact same settings.
 
-## Pré-remplissage par URL
+## Prefill via URL
 
-L'app lit les paramètres de l'URL au chargement et remplit le formulaire automatiquement :
+The app reads the URL parameters on load and fills the form automatically:
 
 ```
 https://jeremy-jouffroy.github.io/URL-QR-code-generator-free/?url=https://www.google.com&fg=FFFFFF&bg=000000
 ```
 
-| Paramètre | Rôle | Exemple |
+| Parameter | Purpose | Example |
 |---|---|---|
-| `url` | URL de destination encodée dans le QR | `url=https://exemple.com` |
-| `fg` | couleur du QR (hex, avec ou sans `#`) | `fg=FFFFFF` |
-| `bg` | couleur de fond (hex) | `bg=000000` |
-| `transparent` | fond transparent (`1` / `true`) | `transparent=1` |
+| `url` | destination URL encoded in the QR | `url=https://example.com` |
+| `fg` | QR color (hex, with or without `#`) | `fg=FFFFFF` |
+| `bg` | background color (hex) | `bg=000000` |
+| `transparent` | transparent background (`1` / `true`) | `transparent=1` |
 
 ## Stack
 
-Pur **HTML / CSS / JavaScript**, sans build ni dépendance serveur. La génération du QR
-repose sur la librairie [`qrcode-generator`](https://github.com/kazuhikoarase/qrcode-generator)
-de Kazuhiko Arase (licence MIT), vendorée dans `qrcode.js`.
+Pure **HTML / CSS / JavaScript**, no build step and no server dependency. QR generation
+relies on Kazuhiko Arase's [`qrcode-generator`](https://github.com/kazuhikoarase/qrcode-generator)
+library (MIT license), vendored in `qrcode.js`.
 
 ```
-index.html             structure de la page
-style.css              mise en forme
-app.js                 logique (génération, aperçu, export PNG/SVG, install PWA)
-qrcode.js              librairie d'encodage QR (vendorée)
-manifest.webmanifest   métadonnées PWA (nom, couleurs, icônes)
-sw.js                  service worker (cache app shell → hors-ligne)
-icon-*.png             icônes de l'app (générées via gen-icons.js)
-gen-icons.js           script utilitaire de génération des icônes
+index.html             page structure
+style.css              styling
+app.js                 logic (generation, preview, PNG/SVG export, PWA install)
+qrcode.js              QR encoding library (vendored)
+manifest.webmanifest   PWA metadata (name, colors, icons)
+sw.js                  service worker (caches the app shell → offline)
+icon-*.png             app icons (generated via gen-icons.js)
+gen-icons.js           utility script that generates the icons
 ```
 
-## Utilisation locale
+## Local usage
 
-Ouvrez simplement `index.html` dans un navigateur, ou servez le dossier :
+Just open `index.html` in a browser, or serve the folder:
 
 ```bash
 python3 -m http.server 8000
-# puis http://localhost:8000
+# then http://localhost:8000
 ```
 
-## Déploiement (GitHub Pages)
+## Deployment (GitHub Pages)
 
-Le site est entièrement statique. Activez GitHub Pages sur la branche `main`
-(dossier racine `/`) et c'est en ligne.
+The site is fully static. Enable GitHub Pages on the `main` branch
+(root folder `/`) and it's live.
 
-## Licence
+## License
 
-Code de ce projet : MIT. Librairie `qrcode.js` : MIT (Kazuhiko Arase).
+This project's code: MIT. `qrcode.js` library: MIT (Kazuhiko Arase).

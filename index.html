@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>URL QR Code Generator — Free</title>
-  <meta name="description" content="Générateur de QR code d'URL gratuit, 100% dans le navigateur. Choisissez les couleurs, téléchargez en PNG haute résolution ou SVG. Idéal web et PowerPoint." />
+  <meta name="description" content="Free URL QR code generator, 100% in your browser. Pick your colors and download a high-resolution PNG or SVG. Perfect for the web and PowerPoint." />
 
   <!-- PWA -->
   <link rel="manifest" href="./manifest.webmanifest" />
@@ -21,29 +21,29 @@
   <main class="app">
     <header class="app__header">
       <h1>URL QR Code Generator</h1>
-      <p class="app__subtitle">Gratuit · 100% dans votre navigateur · Aucune donnée envoyée</p>
-      <button type="button" id="install-btn" class="btn btn--primary install-btn" hidden>📲 Utiliser hors ligne</button>
+      <p class="app__subtitle">Free · 100% in your browser · No data sent</p>
+      <button type="button" id="install-btn" class="btn btn--primary install-btn" hidden>📲 Use offline</button>
     </header>
 
     <div class="layout">
-      <!-- Contrôles -->
-      <section class="panel controls" aria-label="Paramètres">
+      <!-- Controls -->
+      <section class="panel controls" aria-label="Settings">
         <div class="field">
-          <label for="url">URL de destination</label>
+          <label for="url">Destination URL</label>
           <input
             type="text"
             id="url"
             inputmode="url"
             autocomplete="off"
             spellcheck="false"
-            placeholder="exemple.com ou https://exemple.com/page"
-            value="https://exemple.com" />
+            placeholder="example.com or https://example.com/page"
+            value="https://example.com" />
           <p class="field__hint" id="encoded-hint"></p>
         </div>
 
         <div class="field field--inline">
           <div class="color-field">
-            <label for="fg">Couleur du QR code</label>
+            <label for="fg">QR code color</label>
             <div class="color-input">
               <input type="color" id="fg" value="#000000" />
               <input type="text" id="fg-hex" class="hex" value="#000000" maxlength="7" spellcheck="false" />
@@ -51,7 +51,7 @@
           </div>
 
           <div class="color-field">
-            <label for="bg">Couleur de fond</label>
+            <label for="bg">Background color</label>
             <div class="color-input">
               <input type="color" id="bg" value="#ffffff" />
               <input type="text" id="bg-hex" class="hex" value="#ffffff" maxlength="7" spellcheck="false" />
@@ -61,34 +61,34 @@
 
         <label class="checkbox">
           <input type="checkbox" id="transparent" />
-          <span>Fond transparent (PNG / SVG)</span>
+          <span>Transparent background (PNG / SVG)</span>
         </label>
 
         <p class="warning" id="contrast-warning" hidden>
-          ⚠️ Contraste faible entre le QR et le fond : il risque d'être illisible par les scanners.
+          ⚠️ Low contrast between the QR code and the background: scanners may not be able to read it.
         </p>
       </section>
 
-      <!-- Aperçu + export -->
-      <section class="panel preview" aria-label="Aperçu">
+      <!-- Preview + export -->
+      <section class="panel preview" aria-label="Preview">
         <div class="preview__frame" id="preview-frame">
-          <div id="qr-output" class="qr-output" role="img" aria-label="Aperçu du QR code"></div>
+          <div id="qr-output" class="qr-output" role="img" aria-label="QR code preview"></div>
         </div>
         <div class="actions">
-          <button type="button" id="dl-png" class="btn btn--primary">Télécharger PNG</button>
-          <button type="button" id="dl-svg" class="btn">Télécharger SVG</button>
+          <button type="button" id="dl-png" class="btn btn--primary">Download PNG</button>
+          <button type="button" id="dl-svg" class="btn">Download SVG</button>
         </div>
-        <button type="button" id="share-link" class="btn btn--share">🔗 Copier le lien de partage</button>
-        <p class="preview__note">PNG haute résolution (1024 px) — parfait pour le web et PowerPoint. SVG vectoriel pour une qualité infinie.</p>
+        <button type="button" id="share-link" class="btn btn--share">🔗 Copy share link</button>
+        <p class="preview__note">High-resolution PNG (1024 px) — perfect for the web and PowerPoint. Vector SVG for unlimited quality.</p>
       </section>
     </div>
 
     <footer class="app__footer">
-      <p>Aucune inscription, aucune publicité, aucun tracking. Tout est calculé localement.</p>
+      <p>No sign-up, no ads, no tracking. Everything is computed locally.</p>
     </footer>
   </main>
 
-  <!-- Librairie QR vendorée (pure JS, sans dépendance) -->
+  <!-- Vendored QR library (pure JS, no dependencies) -->
   <script src="qrcode.js"></script>
   <script src="app.js"></script>
 </body>
