@@ -40,6 +40,13 @@ html, body {
 }
 .app__subtitle { margin: 10px 0 0; color: var(--muted); font-size: 0.95rem; }
 
+.install-btn {
+  flex: none;
+  margin: 18px auto 0;
+  padding: 11px 22px;
+  display: inline-block;
+}
+
 .layout {
   display: grid;
   grid-template-columns: 1fr 1fr;

@@ -224,3 +224,35 @@ els.dlPng.addEventListener("click", downloadPng);
 els.dlSvg.addEventListener("click", downloadSvg);
 
 render();
+
+// ---- PWA : Service Worker + invite d'installation ----
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(() => {});
+  });
+}
+
+const installBtn = document.getElementById("install-btn");
+let deferredPrompt = null;
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if (installBtn) installBtn.hidden = false;
+});
+
+if (installBtn) {
+  installBtn.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    installBtn.hidden = true;
+  });
+}
+
+window.addEventListener("appinstalled", () => {
+  deferredPrompt = null;
+  if (installBtn) installBtn.hidden = true;
+});

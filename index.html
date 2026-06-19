@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>URL QR Code Generator — Free</title>
   <meta name="description" content="Générateur de QR code d'URL gratuit, 100% dans le navigateur. Choisissez les couleurs, téléchargez en PNG haute résolution ou SVG. Idéal web et PowerPoint." />
+
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <meta name="theme-color" content="#0f1220" />
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="QR Generator" />
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -12,6 +22,7 @@
     <header class="app__header">
       <h1>URL QR Code Generator</h1>
       <p class="app__subtitle">Gratuit · 100% dans votre navigateur · Aucune donnée envoyée</p>
+      <button type="button" id="install-btn" class="btn btn--primary install-btn" hidden>📲 Installer l'application</button>
     </header>
 
     <div class="layout">
