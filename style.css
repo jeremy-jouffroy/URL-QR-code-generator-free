@@ -198,6 +198,17 @@ input[type="color"]::-webkit-color-swatch { border: 1px solid var(--border); bor
 .btn--primary:hover { background: var(--accent-hover); }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
+.btn--share {
+  width: 100%;
+  margin-top: 12px;
+  flex: none;
+}
+.btn--share.copied {
+  background: #1f7a4d;
+  border-color: #1f7a4d;
+  color: #fff;
+}
+
 .preview__note { margin: 14px 0 0; font-size: 0.8rem; color: var(--muted); text-align: center; }
 
 .app__footer { margin-top: 36px; text-align: center; }

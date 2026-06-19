@@ -5,6 +5,10 @@ const QUIET_ZONE = 4;        // marge (en modules) autour du QR — requise pour
 const EC_LEVEL = "M";        // niveau de correction d'erreur (L, M, Q, H)
 const PNG_SIZE = 1024;       // résolution du PNG exporté (px)
 
+// Base canonique pour les liens partagés : toujours la GitHub Page publique,
+// afin que le lien fonctionne pour tout le monde (et dans la PWA installée).
+const SHARE_BASE = "https://jeremy-jouffroy.github.io/URL-QR-code-generator-free/";
+
 // ---- Éléments du DOM ----
 const els = {
   url: document.getElementById("url"),
@@ -18,6 +22,7 @@ const els = {
   contrastWarning: document.getElementById("contrast-warning"),
   dlPng: document.getElementById("dl-png"),
   dlSvg: document.getElementById("dl-svg"),
+  share: document.getElementById("share-link"),
 };
 
 // État courant du QR (matrice + paramètres) pour l'export
@@ -214,6 +219,70 @@ function syncColor(picker, hexInput) {
   });
 }
 
+// ---- Couleur via valeur (hex avec ou sans #) ----
+
+function setColor(picker, hexInput, raw) {
+  let v = String(raw || "").trim();
+  if (v && v[0] !== "#") v = "#" + v;
+  if (!isValidHex(v)) return false;
+  v = v.toUpperCase();
+  picker.value = v;
+  hexInput.value = v;
+  return true;
+}
+
+// ---- Pré-remplissage depuis l'URL : ?url=...&fg=...&bg=...&transparent=1 ----
+
+function applyQueryParams() {
+  const p = new URLSearchParams(window.location.search);
+  if (p.has("url")) els.url.value = p.get("url");
+  if (p.has("fg")) setColor(els.fg, els.fgHex, p.get("fg"));
+  if (p.has("bg")) setColor(els.bg, els.bgHex, p.get("bg"));
+  if (p.has("transparent")) {
+    const t = p.get("transparent");
+    els.transparent.checked = t === "1" || t === "true";
+  }
+}
+
+// ---- Lien partageable (pointe toujours vers la GitHub Page) ----
+
+function buildShareUrl() {
+  const params = new URLSearchParams();
+  params.set("url", normalizeUrl(els.url.value));
+  params.set("fg", (els.fgHex.value || els.fg.value).replace("#", ""));
+  params.set("bg", (els.bgHex.value || els.bg.value).replace("#", ""));
+  if (els.transparent.checked) params.set("transparent", "1");
+  return SHARE_BASE + "?" + params.toString();
+}
+
+async function copyShareLink() {
+  const link = buildShareUrl();
+  let ok = false;
+  try {
+    await navigator.clipboard.writeText(link);
+    ok = true;
+  } catch (e) {
+    try {
+      const ta = document.createElement("textarea");
+      ta.value = link;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      ok = document.execCommand("copy");
+      ta.remove();
+    } catch (_) {
+      ok = false;
+    }
+  }
+  els.share.classList.add("copied");
+  els.share.textContent = ok ? "✓ Lien copié !" : "Copie impossible";
+  setTimeout(() => {
+    els.share.classList.remove("copied");
+    els.share.textContent = "🔗 Copier le lien de partage";
+  }, 2000);
+}
+
 // ---- Initialisation ----
 
 syncColor(els.fg, els.fgHex);
@@ -222,7 +291,9 @@ els.url.addEventListener("input", render);
 els.transparent.addEventListener("change", render);
 els.dlPng.addEventListener("click", downloadPng);
 els.dlSvg.addEventListener("click", downloadSvg);
+els.share.addEventListener("click", copyShareLink);
 
+applyQueryParams();
 render();
 
 // ---- PWA : Service Worker + invite d'installation ----
