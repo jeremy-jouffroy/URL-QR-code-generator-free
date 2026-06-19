@@ -64,6 +64,25 @@
           <span>Transparent background (PNG / SVG)</span>
         </label>
 
+        <div class="contrast-meter" id="contrast-meter" data-level="na">
+          <span class="contrast-meter__dot" aria-hidden="true"></span>
+          <span class="contrast-meter__text">
+            Contrast: <strong id="contrast-value">—</strong>
+            <span class="contrast-meter__verdict" id="contrast-verdict"></span>
+          </span>
+          <button type="button" class="info" aria-label="What is a good contrast ratio?">i
+            <span class="tooltip" role="tooltip">
+              <strong>Contrast ratio</strong> between the QR code and its background — the higher it is, the easier the code is to scan.
+              <span class="tooltip__examples">
+                <span><b>7.0:1</b> — black on white, ideal</span>
+                <span><b>4.0:1+</b> — reliable on most scanners</span>
+                <span><b>3.0:1</b> — practical minimum</span>
+                <span><b>&lt; 2.5:1</b> — scanners may fail</span>
+              </span>
+            </span>
+          </button>
+        </div>
+
         <p class="warning" id="contrast-warning" hidden>
           ⚠️ Low contrast between the QR code and the background: scanners may not be able to read it.
         </p>

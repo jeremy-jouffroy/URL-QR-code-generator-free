@@ -20,6 +20,9 @@ const els = {
   output: document.getElementById("qr-output"),
   encodedHint: document.getElementById("encoded-hint"),
   contrastWarning: document.getElementById("contrast-warning"),
+  contrastMeter: document.getElementById("contrast-meter"),
+  contrastValue: document.getElementById("contrast-value"),
+  contrastVerdict: document.getElementById("contrast-verdict"),
   dlPng: document.getElementById("dl-png"),
   dlSvg: document.getElementById("dl-svg"),
   share: document.getElementById("share-link"),
@@ -58,6 +61,27 @@ function contrastRatio(a, b) {
 
 function isValidHex(v) {
   return /^#[0-9a-fA-F]{6}$/.test(v);
+}
+
+// Updates the contrast indicator (value + colored verdict) under the checkbox
+function updateContrastMeter(fg, bg, transparent) {
+  if (transparent) {
+    els.contrastMeter.dataset.level = "na";
+    els.contrastValue.textContent = "—";
+    els.contrastVerdict.textContent = "Transparent background";
+    return;
+  }
+  const ratio = contrastRatio(fg, bg);
+  els.contrastValue.textContent = ratio.toFixed(1) + ":1";
+
+  let level, label;
+  if (ratio >= 5) { level = "great"; label = "Excellent"; }
+  else if (ratio >= 3) { level = "good"; label = "Good"; }
+  else if (ratio >= 2.5) { level = "low"; label = "Low"; }
+  else { level = "bad"; label = "Too low"; }
+
+  els.contrastMeter.dataset.level = level;
+  els.contrastVerdict.textContent = label;
 }
 
 // ---- QR generation ----
@@ -111,7 +135,8 @@ function render() {
   const bg = isValidHex(els.bgHex.value) ? els.bgHex.value : els.bg.value;
   const transparent = els.transparent.checked;
 
-  // Contrast warning
+  // Contrast indicator + warning
+  updateContrastMeter(fg, bg, transparent);
   els.contrastWarning.hidden = transparent || contrastRatio(fg, bg) >= 2.5;
 
   if (!encoded) {
