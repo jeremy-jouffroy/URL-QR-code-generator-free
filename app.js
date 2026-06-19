@@ -307,10 +307,21 @@ if ("serviceWorker" in navigator) {
 const installBtn = document.getElementById("install-btn");
 let deferredPrompt = null;
 
+// L'app est-elle déjà lancée comme application installée (PWA en mode autonome) ?
+function isStandalone() {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.matchMedia("(display-mode: minimal-ui)").matches ||
+    window.matchMedia("(display-mode: fullscreen)").matches ||
+    navigator.standalone === true // iOS Safari
+  );
+}
+
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  if (installBtn) installBtn.hidden = false;
+  // Inutile de proposer l'installation si on tourne déjà en mode application.
+  if (installBtn && !isStandalone()) installBtn.hidden = false;
 });
 
 if (installBtn) {
@@ -326,4 +337,9 @@ if (installBtn) {
 window.addEventListener("appinstalled", () => {
   deferredPrompt = null;
   if (installBtn) installBtn.hidden = true;
+});
+
+// Si l'app bascule en mode application pendant la session, on masque le CTA.
+window.matchMedia("(display-mode: standalone)").addEventListener("change", (e) => {
+  if (e.matches && installBtn) installBtn.hidden = true;
 });
