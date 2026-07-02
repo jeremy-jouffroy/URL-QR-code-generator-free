@@ -314,11 +314,15 @@ syncColor(els.fg, els.fgHex);
 syncColor(els.bg, els.bgHex);
 els.url.addEventListener("input", render);
 els.transparent.addEventListener("change", render);
-// Fire an Amplitude event for a CTA click (safe no-op if Amplitude failed to load)
-function trackCta(ctaType) {
+// Fire an Amplitude event (safe no-op if Amplitude failed to load)
+function track(eventName, props) {
   try {
-    if (window.amplitude) window.amplitude.track("CTA Clicked", { cta_type: ctaType });
+    if (window.amplitude) window.amplitude.track(eventName, props);
   } catch (_) {}
+}
+
+function trackCta(ctaType) {
+  track("CTA Clicked", { cta_type: ctaType });
 }
 
 els.dlPng.addEventListener("click", () => { trackCta("download_png"); downloadPng(); });
@@ -358,6 +362,7 @@ window.addEventListener("beforeinstallprompt", (e) => {
 
 if (installBtn) {
   installBtn.addEventListener("click", async () => {
+    track("Download Web App");
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
     await deferredPrompt.userChoice;
