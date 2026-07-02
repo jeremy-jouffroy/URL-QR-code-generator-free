@@ -314,9 +314,16 @@ syncColor(els.fg, els.fgHex);
 syncColor(els.bg, els.bgHex);
 els.url.addEventListener("input", render);
 els.transparent.addEventListener("change", render);
-els.dlPng.addEventListener("click", downloadPng);
-els.dlSvg.addEventListener("click", downloadSvg);
-els.share.addEventListener("click", copyShareLink);
+// Fire an Amplitude event for a CTA click (safe no-op if Amplitude failed to load)
+function trackCta(ctaType) {
+  try {
+    if (window.amplitude) window.amplitude.track("CTA Clicked", { cta_type: ctaType });
+  } catch (_) {}
+}
+
+els.dlPng.addEventListener("click", () => { trackCta("download_png"); downloadPng(); });
+els.dlSvg.addEventListener("click", () => { trackCta("download_svg"); downloadSvg(); });
+els.share.addEventListener("click", () => { trackCta("copy_share_link"); copyShareLink(); });
 
 applyQueryParams();
 render();

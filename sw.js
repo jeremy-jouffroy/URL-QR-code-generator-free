@@ -1,5 +1,5 @@
 // Service Worker — caches the app shell for fully offline operation.
-const CACHE = "qrgen-v7";
+const CACHE = "qrgen-v8";
 const ASSETS = [
   "./",
   "./index.html",
