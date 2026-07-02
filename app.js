@@ -321,8 +321,21 @@ function track(eventName, props) {
   } catch (_) {}
 }
 
+// Current QR settings, attached as properties to CTA events
+function qrProps() {
+  const fg = isValidHex(els.fgHex.value) ? els.fgHex.value : els.fg.value;
+  const bg = isValidHex(els.bgHex.value) ? els.bgHex.value : els.bg.value;
+  return {
+    destination_url: normalizeUrl(els.url.value),
+    qr_color: fg.toUpperCase(),
+    background_color: bg.toUpperCase(),
+    transparent: els.transparent.checked,
+    contrast_score: parseFloat(contrastRatio(fg, bg).toFixed(2)),
+  };
+}
+
 function trackCta(ctaType) {
-  track("CTA Clicked", { cta_type: ctaType });
+  track("CTA Clicked", Object.assign({ cta_type: ctaType }, qrProps()));
 }
 
 els.dlPng.addEventListener("click", () => { trackCta("download_png"); downloadPng(); });
